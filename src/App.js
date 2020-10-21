@@ -32,7 +32,6 @@ function App() {
 						path='/'
 						render={(rp) => <Display {...rp} states={states} />}
 					/>
-					{/* <Display states={states} /> */}
 				</Switch>
 			</main>
 		</div>
