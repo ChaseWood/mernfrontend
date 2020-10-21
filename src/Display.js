@@ -4,25 +4,31 @@ const Display = (props) => {
 	const { states } = props;
 	const loaded = () => (
 		<div style={{ textAlign: 'center' }}>
-			{states.map((state) => (
-				<article>
-					<img src={state.img} />
-					<h1>{state.name}</h1>
-					{/* <button
-						onClick={() => {
-							props.selectDog(dog);
-							props.history.push('/edit');
-						}}>
-						Edit
-					</button>
-					<button
+			{states.map((state) => {
+				console.log(state.capitol[0]);
+				if (state.capitol[0]) {
+					return (
+						<article>
+							<img src={state.img} />
+							<h1>{state.name}</h1>
+							<h2>{state.capitol[0].name}</h2>
+							<button
+								onClick={() => {
+									props.selectState(state);
+									props.history.push('/edit');
+								}}>
+								Edit
+							</button>
+							{/* <button
 						onClick={() => {
 							props.deleteDog(dog);
 						}}>
 						Delete
 					</button> */}
-				</article>
-			))}
+						</article>
+					);
+				}
+			})}
 		</div>
 	);
 	const loading = <h1>Loading...</h1>;

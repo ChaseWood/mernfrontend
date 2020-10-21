@@ -8,6 +8,7 @@ function App() {
 	const url = 'https://mern-state-capitol-lab.herokuapp.com';
 
 	const [states, setStates] = React.useState([]);
+	const [selectedState, setSelectedState] = React.useState([]);
 
 	const emptyState = {
 		name: '',
@@ -34,6 +35,22 @@ function App() {
 		}).then((response) => getStates());
 	};
 
+	const handleUpdate = (state) => {
+		fetch(url + '/state/' + state._id, {
+			method: 'put',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(state),
+		}).then(() => {
+			getStates();
+		});
+	};
+
+	const selectState = (state) => {
+		setSelectedState(state);
+	};
+
 	return (
 		<div className='App'>
 			<h1>Add Your State and City!</h1>
@@ -45,7 +62,9 @@ function App() {
 					<Route
 						exact
 						path='/'
-						render={(rp) => <Display {...rp} states={states} />}
+						render={(rp) => (
+							<Display {...rp} states={states} selectState={selectState} />
+						)}
 					/>
 					<Route
 						exact
@@ -53,9 +72,21 @@ function App() {
 						render={(rp) => (
 							<Form
 								{...rp}
-								label='Add State'
+								label='Submit'
 								state={emptyState}
 								handleSubmit={handleCreate}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path='/edit'
+						render={(rp) => (
+							<Form
+								{...rp}
+								label='Update'
+								state={selectedState}
+								handleSubmit={handleUpdate}
 							/>
 						)}
 					/>
