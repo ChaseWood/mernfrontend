@@ -9,7 +9,7 @@ function App() {
 
 	const [states, setStates] = React.useState([]);
 
-	emptyState = {
+	const emptyState = {
 		name: '',
 		img: '',
 	};
@@ -53,9 +53,9 @@ function App() {
 						render={(rp) => (
 							<Form
 								{...rp}
-								label='update'
+								label='Add State'
 								state={emptyState}
-								handleSubmit={handleUpdate}
+								handleSubmit={handleCreate}
 							/>
 						)}
 					/>
