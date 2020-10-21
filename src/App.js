@@ -9,6 +9,11 @@ function App() {
 
 	const [states, setStates] = React.useState([]);
 
+	emptyState = {
+		name: '',
+		img: '',
+	};
+
 	const getStates = () => {
 		fetch(url + '/state')
 			.then((response) => response.json())
@@ -18,6 +23,16 @@ function App() {
 	};
 
 	React.useEffect(() => getStates(), []);
+
+	const handleCreate = (newState) => {
+		fetch(url + '/state/', {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newState),
+		}).then((response) => getStates());
+	};
 
 	return (
 		<div className='App'>
@@ -31,6 +46,18 @@ function App() {
 						exact
 						path='/'
 						render={(rp) => <Display {...rp} states={states} />}
+					/>
+					<Route
+						exact
+						path='/create'
+						render={(rp) => (
+							<Form
+								{...rp}
+								label='update'
+								state={emptyState}
+								handleSubmit={handleUpdate}
+							/>
+						)}
 					/>
 				</Switch>
 			</main>
