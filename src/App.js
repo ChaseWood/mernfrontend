@@ -1,24 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, Link, Switch } from 'react-router-dom';
+import Display from './Display';
+import Form from './Form';
 
 function App() {
-	const url = 'http://localhost:4500/';
+	const url = 'https://mern-state-capitol-lab.herokuapp.com';
 
 	const [states, setStates] = React.useState([]);
 
 	const getStates = () => {
-		fetch(url + '/state/')
+		fetch(url + '/state')
 			.then((response) => response.json())
 			.then((data) => {
-				setDogs(data);
+				setStates(data);
 			});
 	};
 
 	React.useEffect(() => getStates(), []);
 
-	return <div className='App'></div>;
+	return (
+		<div className='App'>
+			<h1>Add Your State and City!</h1>
+			<Link to='/create'>
+				<button>Add State</button>
+			</Link>
+			<main>
+				<Switch>
+					<Route
+						exact
+						path='/'
+						render={(rp) => <Display {...rp} states={states} />}
+					/>
+					{/* <Display states={states} /> */}
+				</Switch>
+			</main>
+		</div>
+	);
 }
 
 export default App;
